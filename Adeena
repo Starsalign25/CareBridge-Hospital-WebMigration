@@ -1,0 +1,33 @@
+
+def register_patient():
+    print("\n--- Register Patient ---")
+
+    name = input("Enter patient name: ")
+
+    while name == "":
+        print("Name cannot be blank.")
+        name = input("Enter patient name again: ")
+
+    age = input("Enter patient age: ")
+
+    while not age.isdigit() or int(age) <= 0:
+        print("Age must be a positive number.")
+        age = input("Enter patient age again: ")
+
+    age = int(age)
+
+    patient_id = input("Enter patient ID: ")
+
+    while patient_id == "":
+        print("ID cannot be blank.")
+        patient_id = input("Enter patient ID again: ")
+
+    print("\nPatient Information:")
+    print("Name:", name)
+    print("Age:", age)
+    print("ID:", patient_id)
+
+    print("Patient registered successfully!")
+
+
+register_patient()
