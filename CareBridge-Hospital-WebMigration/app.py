@@ -71,15 +71,17 @@ def book_appointment():
     if request.method == "GET":
         return render_template("appointment.html")
 
-    department = request.form["department"]
-    appointment_date = request.form["appointment_date"]
+    department = request.form["department"].strip()
+    appointment_date = request.form["appointment_date"].strip()
 
+    # Check department
     if department not in ["GP", "Specialist"]:
         return render_template(
             "appointment.html",
-            message="Invalid department."
+            message="Error: Department must be GP or Specialist."
         )
 
+    # Check date
     try:
         selected_date = datetime.strptime(
             appointment_date,
@@ -89,22 +91,25 @@ def book_appointment():
     except ValueError:
         return render_template(
             "appointment.html",
-            message="Invalid date."
+            message="Error: Invalid date."
         )
 
+    # Check that appointment is more than 7 days from today
     today = date.today()
     days_difference = (selected_date - today).days
 
-    if days_difference < 0 or days_difference > 7:
+    if days_difference <= 7:
         return render_template(
             "appointment.html",
-            message="Appointment must be within the next 7 days."
+            message="Error: Appointment must be more than 7 days from today."
         )
 
+    # Successful booking
     return render_template(
         "appointment.html",
         message=f"Appointment booked successfully! "
-                f"Department: {department}, Date: {appointment_date}"
+                f"Department: {department}, "
+                f"Date: {appointment_date}"
     )
 
 

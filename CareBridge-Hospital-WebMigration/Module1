@@ -1,0 +1,242 @@
+"""
+CareBridge Hospital - Hospital Management System (Prototype)
+Programming 1 - IC33006FP
+A simple menu-driven console program covering:
+    1. Register Patient
+    2. Book Appointment
+    3. Calculate Bill
+    4. Assign Triage Room
+"""
+ 
+from datetime import datetime, timedelta
+ 
+# ---------------------------------------------------------------------------
+# CONSTANTS
+# ---------------------------------------------------------------------------
+BASE_CONSULTATION_FEE = 100
+LAB_TEST_RATE = 10
+SUBSIDISED_DISCOUNT = 0.70          # total = subtotal * 0.70 for Subsidised patients
+MIN_APPOINTMENT_LEAD_DAYS = 7       # appointment must be MORE than 7 days from today
+DATE_FORMAT = "%d/%m/%Y"            # expected input format e.g. 25/12/2026
+ 
+ 
+# ---------------------------------------------------------------------------
+# 1) REGISTER PATIENT
+# ---------------------------------------------------------------------------
+def register_patient():
+    """
+    Inputs   : patient name (text), age (positive whole number), patient ID (text)
+    Process  : validate each field, re-prompt until valid
+    Output   : confirmation of patient details
+    """
+    print("\n--- Register Patient ---")
+ 
+    # ---- Name ----
+    while True:
+        name = input("Enter patient's name: ").strip()
+        if name == "":
+            print("Error: Name cannot be blank. Please try again.")
+        else:
+            break
+ 
+    # ---- Age ----
+    while True:
+        age_input = input("Enter patient's age: ").strip()
+        if not age_input.isdigit():
+            print("Error: Age must be a positive whole number. Please try again.")
+            continue
+        age = int(age_input)
+        if age <= 0:
+            print("Error: Age must be a positive number. Please try again.")
+        else:
+            break
+ 
+    # ---- Patient ID ----
+    while True:
+        patient_id = input("Enter patient's ID: ").strip()
+        if patient_id == "":
+            print("Error: Patient ID cannot be blank. Please try again.")
+        else:
+            break
+ 
+    # ---- Confirmation ----
+    print("\nPatient registered successfully!")
+    print(f"Name : {name}")
+    print(f"Age  : {age}")
+    print(f"ID   : {patient_id}")
+ 
+ 
+# ---------------------------------------------------------------------------
+# 2) BOOK APPOINTMENT
+# ---------------------------------------------------------------------------
+from datetime import datetime, date, timedelta
+
+DATE_FORMAT = "%d/%m/%Y"
+MIN_APPOINTMENT_LEAD_DAYS = 7
+
+
+def book_appointment():
+    """
+    Inputs   : department (GP / Specialist), appointment date (dd/mm/yyyy)
+    Process  : validate department and appointment date
+    Output   : confirmation of booking
+    """
+
+    print("\n--- Book Appointment ---")
+
+    # ---- Department ----
+    while True:
+        department = input("Enter department (GP / Specialist): ").strip()
+
+        if department.upper() == "GP" or department.upper() == "SPECIALIST":
+            break
+        else:
+            print("Error: Department must be GP or Specialist.")
+
+    # ---- Appointment Date ----
+    while True:
+        date_input = input("Enter appointment date (dd/mm/yyyy): ").strip()
+
+        try:
+            appointment_date = datetime.strptime(
+                date_input, DATE_FORMAT
+            ).date()
+
+            today = date.today()
+            earliest_allowed = today + timedelta(days=MIN_APPOINTMENT_LEAD_DAYS)
+
+            if appointment_date <= earliest_allowed:
+                print("Error: Appointment date must be more than 7 days from today.")
+            else:
+                break
+
+        except ValueError:
+            print("Error: Invalid date. Please use dd/mm/yyyy.")
+
+    # ---- Confirmation ----
+    print("\n--- Appointment Confirmed ---")
+    print("Appointment booked successfully!")
+    
+    if department.upper() == "GP":
+        print("Department :", "GP")
+    else:
+        print("Department :", "Specialist")
+
+    print("Date       :", appointment_date.strftime(DATE_FORMAT))
+# ---------------------------------------------------------------------------
+# 3) CALCULATE BILL
+# ---------------------------------------------------------------------------
+def calculate_bill():
+    """
+    Inputs   : patient type (Subsidised / Private), number of lab tests (whole number)
+    Process  : subtotal = BASE_CONSULTATION_FEE + (lab tests * LAB_TEST_RATE)
+               Subsidised -> total = subtotal * SUBSIDISED_DISCOUNT
+               Private    -> total = subtotal
+    Output   : patient type and total amount to pay
+    """
+    print("\n--- Calculate Bill ---")
+ 
+    # ---- Patient Type ----
+    valid_types = ("SUBSIDISED", "PRIVATE")
+    while True:
+        patient_type = input("Enter patient type (Subsidised / Private): ").strip()
+        if patient_type.upper() not in valid_types:
+            print("Error: Patient type must be 'Subsidised' or 'Private'. Please try again.")
+        else:
+            break
+ 
+    # ---- Number of Lab Tests ----
+    while True:
+        lab_tests_input = input("Enter number of lab tests completed: ").strip()
+        if not lab_tests_input.isdigit():
+            print("Error: Number of lab tests must be a whole number. Please try again.")
+        else:
+            lab_tests = int(lab_tests_input)
+            break
+ 
+    # ---- Calculation ----
+    subtotal = BASE_CONSULTATION_FEE + (lab_tests * LAB_TEST_RATE)
+ 
+    if patient_type.upper() == "SUBSIDISED":
+        total = subtotal * SUBSIDISED_DISCOUNT
+    else:
+        total = subtotal
+ 
+    # ---- Output ----
+    print("\nBill calculated successfully!")
+    print(f"Patient Type : {patient_type.title()}")
+    print(f"Total to Pay : ${total:.2f}")
+ 
+ 
+# ---------------------------------------------------------------------------
+# 4) ASSIGN TRIAGE ROOM
+# ---------------------------------------------------------------------------
+def assign_triage_room():
+    """
+    Inputs   : severity of condition (whole number 1-10)
+    Process  : 1-4  -> Waiting Room
+               5-7  -> Room 1
+               8-10 -> Room 2
+    Output   : triage summary with severity and assigned room
+    """
+    print("\n--- Assign Triage Room ---")
+ 
+    while True:
+        severity_input = input("Enter severity of condition (1-10): ").strip()
+        if not severity_input.isdigit():
+            print("Error: Severity must be a whole number between 1 and 10. Please try again.")
+            continue
+        severity = int(severity_input)
+        if severity < 1 or severity > 10:
+            print("Error: Severity must be between 1 and 10. Please try again.")
+        else:
+            break
+ 
+    if 1 <= severity <= 4:
+        room = "Waiting Room"
+    elif 5 <= severity <= 7:
+        room = "Room 1"
+    else:  # 8 to 10
+        room = "Room 2"
+ 
+    print("\nTriage assigned successfully!")
+    print(f"Severity Level  : {severity}")
+    print(f"Assigned Room   : {room}")
+ 
+ 
+# ---------------------------------------------------------------------------
+# MAIN MENU
+# ---------------------------------------------------------------------------
+def display_menu():
+    print("\n===== CareBridge Hospital Management System =====")
+    print("1. Register Patient")
+    print("2. Book Appointment")
+    print("3. Calculate Bill")
+    print("4. Assign Triage Room")
+    print("5. Exit")
+    print("===================================================")
+ 
+ 
+def main():
+    while True:
+        display_menu()
+        choice = input("Enter your choice (1-5): ").strip()
+ 
+        if choice == "1":
+            register_patient()
+        elif choice == "2":
+            book_appointment()
+        elif choice == "3":
+            calculate_bill()
+        elif choice == "4":
+            assign_triage_room()
+        elif choice == "5":
+            print("\nExiting system. Goodbye!")
+            break
+        else:
+            print("Error: Invalid choice. Please enter a number from 1 to 5.")
+ 
+ 
+if __name__ == "__main__":
+    main()
+ 
