@@ -1,48 +1,39 @@
 from datetime import datetime, timedelta
 
+# Ask for department
+department = input("Enter department (GP or Specialist): ")
 
-def book_appointment():
-    print("\n--- Book Appointment ---")
+# Ask for appointment date
+appointmentDate = input("Enter preferred appointment date (DD/MM/YYYY): ")
 
-    # Ask for department
-    while True:
-        department = input("Enter department (GP or Specialist): ").strip()
+# Check if department is valid
+validDepartment = (
+    department == "GP" or department == "Specialist"
+)
 
-        if department == "GP" or department == "Specialist":
-            break
-        else:
-            print("Error: Please enter GP or Specialist.")
+# Check if date is valid
+try:
+    appointment_date = datetime.strptime(
+        appointmentDate, "%d/%m/%Y"
+    ).date()
 
-    # Ask for appointment date
-    while True:
-        appointment_date = input(
-            "Enter appointment date (DD/MM/YYYY): "
-        ).strip()
+    today = datetime.today().date()
 
-        try:
-            appointment_date = datetime.strptime(
-                appointment_date, "%d/%m/%Y"
-            ).date()
+    # Appointment must be more than 7 days from today
+    validDate = appointment_date > today + timedelta(days=7)
 
-            current_date = datetime.now().date()
-            maximum_date = current_date + timedelta(days=7)
+except ValueError:
+    validDate = False
 
-            if current_date < appointment_date <= maximum_date:
-                break
-            else:
-                print("Error: Appointment must be within the next 7 days.")
 
-        except ValueError:
-            print("Error: Please enter the date in DD/MM/YYYY format.")
+# Check the results
+if validDepartment == False:
+    print("Error: Department must be GP or Specialist.")
 
-    # Display booking details
-    print("\nAppointment Booked Successfully!")
+elif validDate == False:
+    print("Error: Appointment date must be more than 7 days from today.")
+
+else:
+    print("Booking Successful!")
     print("Department:", department)
-    print(
-        "Appointment Date:",
-        appointment_date.strftime("%d/%m/%Y")
-    )
-
-
-# Run the function
-book_appointment()
+    print("Appointment Date:", appointmentDate)
