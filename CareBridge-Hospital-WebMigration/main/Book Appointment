@@ -1,0 +1,5 @@
+def book_appointment():
+    department = input("Enter department (GP/Specialist): ")
+    appointment_date = input("Enter appointment date (DD/MM/YYYY): ")
+
+    print("Appointment booked successfully!")

@@ -1,0 +1,41 @@
+def register_patient():
+    """
+    Inputs   : patient name (text), age (positive whole number), patient ID (text)
+    Process  : validate each field, re-prompt until valid
+    Output   : confirmation of patient details
+    """
+    print("\n--- Register Patient ---")
+ 
+    # ---- Name ----
+    while True:
+        name = input("Enter patient's name: ").strip()
+        if name == "":
+            print("Error: Name cannot be blank. Please try again.")
+        else:
+            break
+ 
+    # ---- Age ----
+    while True:
+        age_input = input("Enter patient's age: ").strip()
+        if not age_input.isdigit():
+            print("Error: Age must be a positive whole number. Please try again.")
+            continue
+        age = int(age_input)
+        if age <= 0:
+            print("Error: Age must be a positive number. Please try again.")
+        else:
+            break
+ 
+    # ---- Patient ID ----
+    while True:
+        patient_id = input("Enter patient's ID: ").strip()
+        if patient_id == "":
+            print("Error: Patient ID cannot be blank. Please try again.")
+        else:
+            break
+ 
+    # ---- Confirmation ----
+    print("\nPatient registered successfully!")
+    print(f"Name : {name}")
+    print(f"Age  : {age}")
+    print(f"ID   : {patient_id}")

@@ -1,0 +1,6 @@
+def register_patient():
+    name = input("Enter patient name: ")
+    age = int(input("Enter age: "))
+    patient_id = input("Enter patient ID: ")
+
+    print("Patient registered successfully!")

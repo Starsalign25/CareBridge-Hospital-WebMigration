@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Assign Triage Room</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Assign Triage Room</h1>
+
+        {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="card">
+
+            <form action="/triage" method="POST">
+
+                <input
+                    type="number"
+                    name="severity"
+                    placeholder="Severity 1-10"
+                    min="1"
+                    max="10"
+                    required
+                >
+
+                <button type="submit">
+                    Assign Room
+                </button>
+
+            </form>
+
+        </div>
+
+        <a href="/" class="back-button">
+            Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>
