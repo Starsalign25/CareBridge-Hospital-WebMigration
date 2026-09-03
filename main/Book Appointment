@@ -1,0 +1,38 @@
+def book_appointment():
+    print("\n--- Book Appointment ---")
+
+    while True:
+        department = input("Enter department (GP / Specialist): ").strip()
+
+        if department.upper() == "GP" or department.upper() == "SPECIALIST":
+            break
+
+        print("Error: Department must be GP or Specialist.")
+
+    while True:
+        date_input = input("Enter appointment date (dd/mm/yyyy): ").strip()
+
+        try:
+            appointment_date = datetime.strptime(
+                date_input, DATE_FORMAT
+            ).date()
+
+            today = date.today()
+            earliest_allowed = today + timedelta(
+                days=MIN_APPOINTMENT_LEAD_DAYS
+            )
+
+            if appointment_date <= earliest_allowed:
+                print("Error: Appointment must be more than 7 days from today.")
+            else:
+                break
+
+        except ValueError:
+            print("Error: Invalid date. Please use dd/mm/yyyy.")
+
+    print("\n--- Appointment Confirmed ---")
+    print("Appointment booked successfully!")
+    print("Department:", department.title())
+    print("Date:", appointment_date.strftime(DATE_FORMAT))
+
+
