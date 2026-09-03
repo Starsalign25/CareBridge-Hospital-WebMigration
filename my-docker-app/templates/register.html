@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register Patient</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Register Patient</h1>
+
+        {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="card">
+
+            <form action="/register" method="POST">
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Patient Name"
+                    required
+                >
+
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="patient_id"
+                    placeholder="Patient ID"
+                    required
+                >
+
+                <button type="submit">
+                    Register Patient
+                </button>
+
+            </form>
+
+        </div>
+
+        <a href="/" class="back-button">
+            Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>

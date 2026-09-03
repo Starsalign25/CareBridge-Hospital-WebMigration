@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Book Appointment</h1>
+
+        {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="card">
+
+            <form action="/appointment" method="POST">
+
+                <select name="department">
+
+                    <option value="GP">
+                        GP
+                    </option>
+
+                    <option value="Specialist">
+                        Specialist
+                    </option>
+
+                </select>
+
+                <input
+                    type="date"
+                    name="appointment_date"
+                    required
+                >
+
+                <button type="submit">
+                    Book Appointment
+                </button>
+
+            </form>
+
+        </div>
+
+        <a href="/" class="back-button">
+            Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculate Bill</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Calculate Bill</h1>
+
+        {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="card">
+
+            <form action="/bill" method="POST">
+
+                <select name="patient_type">
+
+                    <option value="Subsidised">
+                        Subsidised
+                    </option>
+
+                    <option value="Private">
+                        Private
+                    </option>
+
+                </select>
+
+                <input
+                    type="number"
+                    name="lab_tests"
+                    placeholder="Number of Lab Tests"
+                    min="0"
+                    required
+                >
+
+                <button type="submit">
+                    Calculate Bill
+                </button>
+
+            </form>
+
+        </div>
+
+        <a href="/" class="back-button">
+            Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>
